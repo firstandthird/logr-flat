@@ -1,0 +1,38 @@
+{
+  "name": "logr-flat",
+  "version": "1.0.0",
+  "description": "plugin for logr that posts tags and log message to flat",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint && tape ./test/*.test.js"
+  },
+  "keywords": [
+    "logr",
+    "flat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firstandthird/logr-flat.git"
+  },
+  "author": "First+Third",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firstandthird/logr-flat/issues"
+  },
+  "eslintConfig": {
+    "extends": "firstandthird"
+  },
+  "homepage": "https://github.com/firstandthird/logr-flat#readme",
+  "devDependencies": {
+    "eslint": "^3.9.1",
+    "eslint-config-firstandthird": "^3.2.0",
+    "eslint-plugin-import": "^2.1.0",
+    "hapi": "^14.1.0",
+    "logr": "2.0.0-beta.1",
+    "tap": "^10.3.1"
+  },
+  "dependencies": {
+    "flat": "^2.0.1"
+  }
+}
