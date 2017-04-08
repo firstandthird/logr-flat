@@ -12,7 +12,7 @@ exports.defaults = {
   }
 };
 
-module.exports = function(options, tags, message) {
+exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors) });
   const now = new Date();
   const ts = (options.timestamp) ? colors.gray(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
