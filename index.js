@@ -2,6 +2,16 @@
 const flatten = require('flat');
 const chalk = require('chalk');
 
+exports.defaults = {
+  timestamp: 'HH:mm:ss',
+  colors: {
+    error: 'red',
+    warning: 'yellow',
+    success: 'green',
+    notice: 'blue'
+  }
+};
+
 module.exports = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors) });
   const now = new Date();
