@@ -2,7 +2,7 @@
 const flatten = require('flat');
 const chalk = require('chalk');
 
-const defaults = {
+exports.defaults = {
   timestamp: 'HH:mm:ss',
   colors: {
     error: 'red',
