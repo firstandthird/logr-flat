@@ -1,6 +1,6 @@
 {
   "name": "logr-flat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "plugin for logr that posts tags and log message to flat",
   "main": "index.js",
   "scripts": {
