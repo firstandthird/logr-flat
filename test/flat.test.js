@@ -41,3 +41,36 @@ test('can use the flat plugin to print an object as one log line', (t) => {
   t.equal(logs.length, 1, 'prints all on one line');
   t.end();
 });
+
+test('just some examples', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  log(['error'], 'this is an error');
+  log(['warning'], 'this is an error');
+  log(['notice'], 'this is an error');
+  t.end();
+});
+
+test('app examples', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat,
+        options: {
+          appColor: true
+        }
+      }
+    }
+  });
+  log(['app1', 'error'], { msg: 'blah', stack: { a: 1, b: 2 } });
+  log(['app2', 'warning'], 'this is an error');
+  log(['app1', 'notice'], 'this is an error');
+  t.end();
+});

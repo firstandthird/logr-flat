@@ -14,6 +14,17 @@ exports.defaults = {
   appColor: false
 };
 
+const appColors = {};
+const availableColors = [
+  'green',
+  'yellow',
+  'blue',
+  'magenta',
+  'cyan',
+  'red'
+];
+let lastColorIndex = 0;
+
 exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const now = new Date();
@@ -29,7 +40,17 @@ exports.log = function(options, tags, message) {
   }
 
   tags.forEach((tag, i) => {
-    const color = options.colors[tag];
+    let color = options.colors[tag];
+    if (i === 0 && options.appColor) {
+      if (!appColors[tag]) {
+        appColors[tag] = availableColors[lastColorIndex];
+        lastColorIndex++;
+        if (lastColorIndex > availableColors.length - 1) {
+          lastColorIndex = 0;
+        }
+      }
+      color = appColors[tag];
+    }
     tags[i] = (color) ? colors[color](tag) : colors.gray(tag);
   });
 
