@@ -1,5 +1,6 @@
 'use strict';
 const flatten = require('flat');
+const stringify = require('json-stringify-safe');
 const chalk = require('chalk');
 
 exports.defaults = {
@@ -22,7 +23,7 @@ exports.log = function(options, tags, message) {
     message = '';
     Object.keys(flatObj).forEach((key) => {
       const keyColor = colors.gray(`${key}:`);
-      message += `${keyColor}${flatObj[key]} `;
+      message += `${keyColor}${stringify(flatObj[key])} `;
     });
   }
 
