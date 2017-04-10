@@ -6,15 +6,16 @@ const chalk = require('chalk');
 exports.defaults = {
   timestamp: 'HH:mm:ss',
   colors: {
-    error: 'red',
-    warning: 'yellow',
-    success: 'green',
-    notice: 'blue'
-  }
+    error: 'bgRed',
+    warning: 'bgYellow',
+    success: 'bgGreen',
+    notice: 'bgBlue'
+  },
+  appColor: false
 };
 
 exports.log = function(options, tags, message) {
-  const colors = new chalk.constructor({ enabled: (options.colors) });
+  const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const now = new Date();
   const ts = (options.timestamp) ? colors.gray(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
 
