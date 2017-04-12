@@ -5,7 +5,15 @@ const chalk = require('chalk');
 
 exports.defaults = {
   timestamp: 'HH:mm:ss',
-  colors: {
+  theme: {
+    timestamp: 'gray',
+    brackets: 'gray',
+    keys: 'gray',
+    message: 'white',
+    values: 'white',
+    tags: 'gray'
+  },
+  tagColors: {
     error: 'bgRed',
     warning: 'bgYellow',
     success: 'bgGreen',
@@ -28,19 +36,21 @@ let lastColorIndex = 0;
 exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const now = new Date();
-  const ts = (options.timestamp) ? colors.gray(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
+  const ts = (options.timestamp) ? colors[options.theme.timestamp](`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
 
   if (typeof message === 'object') {
     const flatObj = flatten(message);
     message = '';
     Object.keys(flatObj).forEach((key) => {
-      const keyColor = colors.gray(`${key}:`);
-      message += `${keyColor}${stringify(flatObj[key])} `;
+      const keyColor = colors[options.theme.keys](`${key}:`);
+      message += `${keyColor}${colors[options.theme.values](stringify(flatObj[key]))} `;
     });
+  } else {
+    message = colors[options.theme.message](message);
   }
 
   tags.forEach((tag, i) => {
-    let color = options.colors[tag];
+    let color = options.tagColors[tag];
     if (i === 0 && options.appColor) {
       if (!appColors[tag]) {
         appColors[tag] = availableColors[lastColorIndex];
@@ -51,14 +61,14 @@ exports.log = function(options, tags, message) {
       }
       color = appColors[tag];
     }
-    tags[i] = (color) ? colors[color](tag) : colors.gray(tag);
+    tags[i] = (color) ? colors[color](tag) : colors[options.theme.tags](tag);
   });
 
   const renderTags = (localTags) => {
     if (localTags.length === 0) {
       return '';
     }
-    return `${colors.gray('[')}${localTags.join(colors.gray(','))}${colors.gray(']')} `;
+    return `${colors[options.theme.brackets]('[')}${localTags.join(colors[options.theme.brackets](','))}${colors[options.theme.brackets](']')} `;
   };
   const out = `${ts}${renderTags(tags)}${message}`;
   return out;
