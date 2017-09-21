@@ -2,6 +2,7 @@
 const Logr = require('logr');
 const logrFlat = require('../index.js');
 const test = require('tap').test;
+const http = require('http');
 
 test('can load the flat  plugin ', (t) => {
   t.plan(1);
@@ -72,5 +73,18 @@ test('app examples', (t) => {
   log(['app1', 'error'], { msg: 'blah', stack: { a: 1, b: 2 } });
   log(['app2', 'warning'], 'this is an error');
   log(['app1', 'notice'], 'this is an error');
+  t.end();
+});
+
+test('complex object', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  log(['complex'], { incoming: new http.IncomingMessage() });
   t.end();
 });

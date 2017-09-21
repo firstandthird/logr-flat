@@ -19,7 +19,8 @@ exports.defaults = {
     success: 'bgGreen',
     notice: 'bgBlue'
   },
-  appColor: false
+  appColor: false,
+  flatDepth: 2
 };
 
 const appColors = {};
@@ -39,7 +40,9 @@ exports.log = function(options, tags, message) {
   const ts = (options.timestamp) ? colors[options.theme.timestamp](`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
 
   if (typeof message === 'object') {
-    const flatObj = flatten(message);
+    const flatObj = flatten(message, {
+      maxDepth: options.flatDepth
+    });
     message = '';
     Object.keys(flatObj).forEach((key) => {
       const keyColor = colors[options.theme.keys](`${key}:`);
