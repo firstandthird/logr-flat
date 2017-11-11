@@ -3,6 +3,7 @@ const flatten = require('flat');
 const chalk = require('chalk');
 
 exports.defaults = {
+  blacklist: 'password|token',
   timestamp: 'HH:mm:ss',
   colors: {
     error: 'red',
@@ -16,13 +17,18 @@ exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors) });
   const now = new Date();
   const ts = (options.timestamp) ? colors.gray(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
+  const blacklistRegEx = new RegExp(options.blacklist, 'i');
 
   if (typeof message === 'object') {
     const flatObj = flatten(message);
     message = '';
     Object.keys(flatObj).forEach((key) => {
+      let value = flatObj[key];
+      if (key.match && key.match(blacklistRegEx) !== null) {
+        value = 'xxxxxx';
+      }
       const keyColor = colors.gray(`${key}:`);
-      message += `${keyColor}${flatObj[key]} `;
+      message += `${keyColor}${value} `;
     });
   }
 
