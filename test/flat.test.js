@@ -106,6 +106,9 @@ test('can use the blacklist option to filter out sensitive info', (t) => {
   log({
     password: 'should be crossed out',
     emailPassword: 'should be crossed out',
+    info: {
+      githubPassword: 'should be crossed out'
+    },
     token: 'should be crossed out',
     this: 'is fine'
   });
