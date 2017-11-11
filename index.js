@@ -4,6 +4,7 @@ const stringify = require('json-stringify-safe');
 const chalk = require('chalk');
 
 exports.defaults = {
+  blacklist: 'password|token',
   timestamp: 'HH:mm:ss',
   theme: {
     timestamp: 'gray',
@@ -38,6 +39,7 @@ exports.log = function(options, tags, message) {
   const colors = new chalk.constructor({ enabled: (options.colors !== false) });
   const now = new Date();
   const ts = (options.timestamp) ? colors[options.theme.timestamp](`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
+  const blacklistRegEx = new RegExp(options.blacklist, 'i'); // blacklist is case insensitive
 
   if (typeof message === 'object') {
     const flatObj = flatten(message, {
@@ -46,7 +48,11 @@ exports.log = function(options, tags, message) {
     message = '';
     Object.keys(flatObj).forEach((key) => {
       const keyColor = colors[options.theme.keys](`${key}:`);
-      message += `${keyColor}${colors[options.theme.values](stringify(flatObj[key]))} `;
+      let value = flatObj[key];
+      if (key.match && key.match(blacklistRegEx) !== null) {
+        value = 'xxxxxx';
+      }
+      message += `${keyColor}${colors[options.theme.values](stringify(value))} `;
     });
   } else {
     message = colors[options.theme.message](message);
