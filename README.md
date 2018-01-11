@@ -1,0 +1,1 @@
+# logr-flat [![Build Status](https://travis-ci.org/firstandthird/logr-flat.svg?branch=master)](https://travis-ci.org/firstandthird/logr-flat) [![Coverage Status](https://coveralls.io/repos/github/firstandthird/logr-flat/badge.svg?branch=master)](https://coveralls.io/github/firstandthird/logr-flat?branch=master)
