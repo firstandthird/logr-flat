@@ -48,7 +48,7 @@ exports.log = function(options, tags, message) {
     message = '';
     // print the 'message' property first if it exists:
     if (flatObj.message) {
-      message = `${colors[options.theme.keys](flatObj.message)} | `;
+      message = `${colors[options.theme.values](flatObj.message)} | `;
       delete flatObj.message;
     }
     Object.keys(flatObj).forEach((key) => {
