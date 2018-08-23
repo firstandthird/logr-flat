@@ -1,8 +1,13 @@
 'use strict';
 const Logr = require('logr');
 const logrFlat = require('../index.js');
-const test = require('tap').test;
+const tap = require('tap');
+const test = tap.test;
 const http = require('http');
+const Boom = require('boom');
+const wreck = require('wreck');
+
+//tap.runOnly = true;
 
 test('can load the flat  plugin ', (t) => {
   t.plan(1);
@@ -76,7 +81,7 @@ test('app examples', (t) => {
   t.end();
 });
 
-test('complex object', (t) => {
+tap.test('complex object', (t) => {
   const log = Logr.createLogger({
     type: 'flat',
     reporters: {
@@ -87,6 +92,65 @@ test('complex object', (t) => {
   });
   log(['complex'], { incoming: new http.IncomingMessage() });
   t.end();
+});
+
+test('error object', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  log(['error-instance'], new Error('hey there'));
+  t.end();
+});
+
+test('boom object', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  log(['boom'], Boom.badRequest('bad bad bad'));
+  t.end();
+});
+
+tap.only('wreck error', (t) => {
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  const port = 3000;
+
+  const requestHandler = (request, response) => {
+    response.writeHead(401);
+    response.end('Hello Node.js Server!');
+  };
+
+  const server = http.createServer(requestHandler);
+
+  server.listen(port, async (err) => {
+    if (err) {
+      throw err;
+    }
+    try {
+      await wreck.get('http://localhost:3000');
+    } catch (e) {
+      log(['wreck'], e);
+    }
+    server.close(() => {
+      t.end();
+    });
+  });
 });
 
 test('can use the blacklist option to filter out sensitive info', (t) => {

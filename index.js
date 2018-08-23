@@ -1,6 +1,5 @@
 'use strict';
 const flatten = require('flat');
-const stringify = require('json-stringify-safe');
 const chalk = require('chalk');
 
 exports.defaults = {
@@ -21,7 +20,7 @@ exports.defaults = {
     notice: 'bgBlue'
   },
   appColor: false,
-  flatDepth: 2
+  flatDepth: 3
 };
 
 const appColors = {};
@@ -57,7 +56,11 @@ exports.log = function(options, tags, message) {
       if (key.match && key.match(blacklistRegEx) !== null) {
         value = 'xxxxxx';
       }
-      message += `${keyColor}${colors[options.theme.values](stringify(value))} `;
+      try {
+        message += `${keyColor}${colors[options.theme.values](value)} `;
+      } catch (e) {
+        message += `${keyColor}${colors[options.theme.values]('ERROR LOGGING')} `;
+      }
     });
   } else {
     message = colors[options.theme.message](message);
