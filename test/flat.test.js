@@ -117,3 +117,31 @@ test('can use the blacklist option to filter out sensitive info', (t) => {
   t.notEqual(logs[0].indexOf('is fine'), -1, 'does include stuff not blacklisted');
   t.end();
 });
+
+test('will print "message" property first', (t) => {
+  const oldConsole = console.log;
+  const logs = [];
+  console.log = (data) => {
+    logs.push(data);
+  };
+  const log = Logr.createLogger({
+    type: 'flat',
+    reporters: {
+      flat: {
+        reporter: logrFlat
+      }
+    }
+  });
+  log({
+    a: true,
+    b: false,
+    hi: 'there',
+    message: 'this should be first',
+    hello: 'goodbye',
+    number: 9
+  });
+  console.log = oldConsole;
+  t.notOk(logs[0].includes('message:'));
+  t.ok(logs[0].includes('this should be first'));
+  t.end();
+});
