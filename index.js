@@ -35,7 +35,7 @@ const availableColors = [
 let lastColorIndex = 0;
 
 exports.log = function(options, tags, message) {
-  const colors = new chalk.constructor({ enabled: (options.colors !== false) });
+  const colors = chalk;
   const now = new Date();
   const ts = (options.timestamp) ? colors[options.theme.timestamp](`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} `) : '';
   const blacklistRegEx = new RegExp(options.blacklist, 'i'); // blacklist is case insensitive

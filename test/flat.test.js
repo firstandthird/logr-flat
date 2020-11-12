@@ -1,11 +1,11 @@
-'use strict';
+/* eslint-disable no-console */
 const Logr = require('logr');
-const logrFlat = require('../index.js');
+const logrFlat = require('..');
 const tap = require('tap');
 const test = tap.test;
 const http = require('http');
-const Boom = require('boom');
-const wreck = require('wreck');
+const Boom = require('@hapi/boom');
+const wreck = require('@hapi/wreck');
 
 //tap.runOnly = true;
 
